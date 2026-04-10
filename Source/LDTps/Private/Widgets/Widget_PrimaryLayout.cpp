@@ -13,7 +13,7 @@ UCommonActivatableWidgetContainerBase* UWidget_PrimaryLayout::FindWidgetStackByT
 	return RegisteredWidgetStackMap.FindRef(InTag);
 }
 
-void UWidget_PrimaryLayout::RegisterWidgetStack(UPARAM(meta = (Categories = "Frontend_WidgetStack")) FGameplayTag InStackTag, UCommonActivatableWidgetContainerBase* InStack)
+void UWidget_PrimaryLayout::RegisterWidgetStack(UPARAM(meta = (Categories = "UI.WidgetStack")) FGameplayTag InStackTag, UCommonActivatableWidgetContainerBase* InStack)
 {
 	// IsDesignTime() 함수는 위젯이 디자인 타임인지 런타임인지 확인하는 함수입니다. 
 	// 디자인 타임에서는 위젯이 에디터에서 편집되고 있는 상태를 나타냅니다. 

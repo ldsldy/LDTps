@@ -24,7 +24,7 @@ public:
 
 protected:
 	UFUNCTION(BlueprintCallable)
-	void RegisterWidgetStack(UPARAM(meta = (Categories = "Frontend_WidgetStack")) FGameplayTag InStackTag, UCommonActivatableWidgetContainerBase* InStack);
+	void RegisterWidgetStack(UPARAM(meta = (Categories = "UI.WidgetStack")) FGameplayTag InStackTag, UCommonActivatableWidgetContainerBase* InStack);
 
 private:
 	//Transient 키워드는 UPROPERTY로 속성을 지정했지만, 디스크로부터 데이터를 로딩하는 것을 방지할 때 사용합니다.

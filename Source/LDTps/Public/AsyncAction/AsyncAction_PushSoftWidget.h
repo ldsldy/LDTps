@@ -27,7 +27,7 @@ public:
 	static UAsyncAction_PushSoftWidget* PushSoftWidget(const UObject* WorldContextObject,
 		APlayerController* OwningPlayerController,
 		TSoftClassPtr<UWidget_ActivatableBase> InSoftWidgetClass,
-		UPARAM(meta = (Categories = "Frontend.WidgetStack")) FGameplayTag InWidgetStackTag,
+		UPARAM(meta = (Categories = "UI.WidgetStack")) FGameplayTag InWidgetStackTag,
 		bool bFocusOnNewlyPushedWidget = true);
 
 	// ~Begin UBlueprintAsyncActionBase interface

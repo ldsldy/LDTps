@@ -10,8 +10,13 @@ namespace LDTpsGameplayTags
 	// LDTPS_API
 
 	// UI Widget Stack 게임플레이 태그
-	LDTPS_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Frontend_WidgetStack_Modal);
-	LDTPS_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Frontend_WidgetStack_GameMenu);
-	LDTPS_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Frontend_WidgetStack_GameHUD);
-	LDTPS_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Frontend_WidgetStack_Frontend);
+	LDTPS_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(UI_WidgetStack_Modal_Frontend);
+	LDTPS_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(UI_WidgetStack_GameMenu_Frontend);
+	LDTPS_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(UI_WidgetStack_GameHUD_Frontend);
+	LDTPS_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(UI_WidgetStack_Frontend_Frontend);
+
+	// UI Widgets 게임플레이 태그
+	LDTPS_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(UI_Widget_Frontend_PressAnyKeyScreen);
+	LDTPS_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(UI_Widget_Frontend_MainMenuScreen);
+
 }
