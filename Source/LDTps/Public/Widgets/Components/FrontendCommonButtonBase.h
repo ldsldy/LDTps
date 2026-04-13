@@ -24,6 +24,10 @@ private:
 	virtual void NativePreConstruct() override;
 	// End of UWidget interface
 
+	// ~ Begin UCommonButtonBase interface
+	virtual void NativeOnCurrentTextStyleChanged() override;
+	// ~ End of UCommonButtonBase interface
+
 private:
 	// **** 바인딩 위젯 **** //
 	// meta = (BindWidgetOptional)로 설정하여, 위젯 트리에 해당 이름의 위젯이 존재할 경우 자동으로 바인딩되도록 함. 
