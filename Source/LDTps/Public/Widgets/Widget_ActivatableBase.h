@@ -6,6 +6,7 @@
 #include "CommonActivatableWidget.h"
 #include "Widget_ActivatableBase.generated.h"
 
+class AFrontendPlayerController;
 /**
  * 
  */
@@ -14,5 +15,9 @@ class LDTPS_API UWidget_ActivatableBase : public UCommonActivatableWidget
 {
 	GENERATED_BODY()
 
-
+protected:
+	UFUNCTION(BlueprintPure)
+	AFrontendPlayerController* GetOwningFrontendPlayerController();
+private:
+	TWeakObjectPtr<AFrontendPlayerController> CachedOwningFrontendPC;
 };

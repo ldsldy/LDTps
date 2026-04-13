@@ -26,7 +26,9 @@ private:
 
 private:
 	// **** 바인딩 위젯 **** //
-	UPROPERTY(meta = (BindWidgetOptional))
+	// meta = (BindWidgetOptional)로 설정하여, 위젯 트리에 해당 이름의 위젯이 존재할 경우 자동으로 바인딩되도록 함. 
+	// 존재하지 않을 경우에도 에러가 발생하지 않음.
+	UPROPERTY(meta = (BindWidgetOptional)) 
 	UCommonTextBlock* CommonTextBlock_ButtonText;
 	// **** 바인딩 위젯 **** //
 
