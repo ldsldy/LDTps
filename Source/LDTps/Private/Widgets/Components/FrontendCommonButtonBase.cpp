@@ -2,6 +2,7 @@
 
 
 #include "Widgets/Components/FrontendCommonButtonBase.h"
+#include "Subsystems/LDTpsUISubsystem.h"
 #include "CommonTextBlock.h"
 
 void UFrontendCommonButtonBase::SetButtonText(FText InText)
@@ -23,8 +24,26 @@ void UFrontendCommonButtonBase::NativeOnCurrentTextStyleChanged()
 {
 	Super::NativeOnCurrentTextStyleChanged();
 
-	if (CommonTextBlock_ButtonText)
+	if (CommonTextBlock_ButtonText && GetCurrentTextStyleClass())
 	{
 		CommonTextBlock_ButtonText->SetStyle(GetCurrentTextStyleClass());
 	}
+}
+
+void UFrontendCommonButtonBase::NativeOnHovered()
+{
+	Super::NativeOnHovered();
+	
+	if (!ButtonDescriptionText.IsEmpty())
+	{
+		ULDTpsUISubsystem::Get(this)->OnButtonDescriptionTextUpdated.Broadcast(this, ButtonDescriptionText);
+	}
+}
+
+void UFrontendCommonButtonBase::NativeOnUnhovered()
+{
+	Super::NativeOnUnhovered();
+
+	ULDTpsUISubsystem::Get(this)->OnButtonDescriptionTextUpdated.Broadcast(this, FText::GetEmpty());
+
 }

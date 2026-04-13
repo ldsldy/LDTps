@@ -8,6 +8,7 @@
 
 class UWidget_PrimaryLayout;
 class UWidget_ActivatableBase;
+class UFrontendCommonButtonBase;
 struct FGameplayTag;
 
 enum class EAsyncPushWidgetState : uint8
@@ -15,6 +16,8 @@ enum class EAsyncPushWidgetState : uint8
 	OnCreateBeforePush,
 	AfterPush,
 };
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnButtonDescriptionTextUpdatedDelegate, UFrontendCommonButtonBase*, BroadcastingButton, FText, DescriptionText);
 /**
  * 
  */
@@ -35,6 +38,9 @@ public:
  
 	// TFunction<void(EAsyncPushWidgetState, UWidget_ActivatableBase*)> AsyncPushStateCallback는 
 	void PushSoftWidgetToStackAynsc(const FGameplayTag& InWidgetStackTag, TSoftClassPtr<UWidget_ActivatableBase> InSoftWidgetClass, TFunction<void(EAsyncPushWidgetState, UWidget_ActivatableBase*)> AsyncPushStateCallback);
+
+	UPROPERTY(BlueprintAssignable)
+	FOnButtonDescriptionTextUpdatedDelegate OnButtonDescriptionTextUpdated;
 
 private:
 	// 항상 런타임에 채워지기 때문에 Transient로 지정하여 디스크 저장에서 제외합니다.
