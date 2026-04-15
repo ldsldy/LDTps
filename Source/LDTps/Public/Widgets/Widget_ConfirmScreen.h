@@ -53,6 +53,10 @@ class LDTPS_API UWidget_ConfirmScreen : public UWidget_ActivatableBase
 {
 	GENERATED_BODY()
 	
+public:
+	// 이 함수는 위젯이 생성되고 모달 스택에 푸시되기 전에 클래스 외부에서 호출됩니다.
+	void InitConfirmScreen(UConfirmScreenInfoObject* InScreenInfoObject, TFunction<void(EConfirmScreenButtonType)> ClickedButtonCallback);
+
 private:
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UCommonTextBlock> CommonTextBlock_Title;

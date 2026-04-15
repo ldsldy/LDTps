@@ -15,7 +15,8 @@ public class LDTps : ModuleRules
 			"InputCore", 
 			"EnhancedInput",
 			"GameplayTags",
-			"UMG",	
+			"UMG",
+			"CommonInput",
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
