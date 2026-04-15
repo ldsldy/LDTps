@@ -6,6 +6,9 @@
 #include "Widgets/Widget_PrimaryLayout.h"
 #include "Widgets/CommonActivatableWidgetContainer.h"
 #include "Widgets/Widget_ActivatableBase.h"
+#include "Widgets/Widget_ConfirmScreen.h"
+#include "UIFunctionLibrary.h"
+#include "LDTpsGameplayTags.h"
 
 #include "LDTpsDebugHelper.h"
 
@@ -78,5 +81,47 @@ void ULDTpsUISubsystem::PushSoftWidgetToStackAynsc(const FGameplayTag& InWidgetS
 				AsyncPushStateCallback(EAsyncPushWidgetState::AfterPush, CreatedWidget);
 			}
 		)
+	);
+}
+
+void ULDTpsUISubsystem::PushConfirmScreenToModalStackAynsc(EConfirmScreenType InScreenType, const FText& InScreenTitle, const FText& InScreenMsg, TFunction<void(EConfirmScreenButtonType)> ButtonClickedCallback)
+{
+	UConfirmScreenInfoObject* CreatedInfoObject = nullptr;
+
+	switch (InScreenType)
+	{
+	case EConfirmScreenType::Ok:
+		CreatedInfoObject = UConfirmScreenInfoObject::CreateOKScreen(InScreenTitle, InScreenMsg);
+		break;
+
+	case EConfirmScreenType::YesNo:
+		CreatedInfoObject = UConfirmScreenInfoObject::CreateYesNoScreen(InScreenTitle, InScreenMsg);
+		break;
+
+	case EConfirmScreenType::OKCancel:
+		CreatedInfoObject = UConfirmScreenInfoObject::CreateOkCancelScreen(InScreenTitle, InScreenMsg);
+		break;
+
+	case EConfirmScreenType::Unkown:
+		break;
+
+	default:
+		break;
+	}
+
+	check(CreatedInfoObject);
+
+	PushSoftWidgetToStackAynsc(
+		LDTpsGameplayTags::UI_WidgetStack_Modal,
+		UUIFunctionLibrary::GetSoftWidgetClassByTag(LDTpsGameplayTags::UI_Widget_Frontend_ConfirmScreen),
+		[CreatedInfoObject, ButtonClickedCallback](EAsyncPushWidgetState InPushState, UWidget_ActivatableBase* PushedWidget)
+		{
+			// 소프트 클래스 위젯의 푸시 상태에 따른 처리
+			if (InPushState == EAsyncPushWidgetState::OnCreateBeforePush)
+			{
+				UWidget_ConfirmScreen* CreatedConfirmScreen = CastChecked<UWidget_ConfirmScreen>(PushedWidget);
+				CreatedConfirmScreen->InitConfirmScreen(CreatedInfoObject, ButtonClickedCallback);
+			}
+		}
 	);
 }

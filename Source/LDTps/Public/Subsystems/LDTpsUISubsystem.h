@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Subsystems/GameInstanceSubsystem.h"
+#include "Types/LDTpsUIEnum.h"
 #include "LDTpsUISubsystem.generated.h"
 
 class UWidget_PrimaryLayout;
@@ -37,7 +38,10 @@ public:
 	void RegisterCreatedPrimaryLayoutWidget(UWidget_PrimaryLayout* InCreatedWidget);
  
 	// TFunction<void(EAsyncPushWidgetState, UWidget_ActivatableBase*)> AsyncPushStateCallback는 
+	// SoftWidget을 로드하여 생성하고 스택에 푸시하는 비동기 작업의 상태를 알리기 위한 함수
 	void PushSoftWidgetToStackAynsc(const FGameplayTag& InWidgetStackTag, TSoftClassPtr<UWidget_ActivatableBase> InSoftWidgetClass, TFunction<void(EAsyncPushWidgetState, UWidget_ActivatableBase*)> AsyncPushStateCallback);
+
+	void PushConfirmScreenToModalStackAynsc(EConfirmScreenType InScreenType, const FText& InScreenTitle, const FText& InScreenMsg, TFunction<void(EConfirmScreenButtonType)> ButtonClickedCallback);
 
 	UPROPERTY(BlueprintAssignable)
 	FOnButtonDescriptionTextUpdatedDelegate OnButtonDescriptionTextUpdated;
