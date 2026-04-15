@@ -104,13 +104,10 @@ void UWidget_ConfirmScreen::InitConfirmScreen(UConfirmScreenInfoObject* InScreen
 	{
 		FDataTableRowHandle InputActionRowHandle;
 
+
+
 		switch (AvailableButtonInfo.ConfirmScreenButtonType)
 		{
-		case EConfirmScreenButtonType::Confirmed:
-			// 확인 버튼의 경우 클릭 액션으로 설정된 입력 액션을 가져옵니다. 
-			InputActionRowHandle = ICommonInputModule::GetSettings().GetDefaultClickAction(); // 에디터의 프로젝트 세팅에 설정된 기본 클릭 액션을 가온다
-			break;
-
 		case EConfirmScreenButtonType::Cancelled:
 			// 취소 버튼의 경우 뒤로가기 액션으로 설정된 입력 액션을 가져옵니다.
 			InputActionRowHandle = ICommonInputModule::GetSettings().GetDefaultBackAction();
@@ -127,7 +124,7 @@ void UWidget_ConfirmScreen::InitConfirmScreen(UConfirmScreenInfoObject* InScreen
 
 		UFrontendCommonButtonBase* AddedButton = DynamicEntryBox_Buttons->CreateEntry<UFrontendCommonButtonBase>();
 		AddedButton->SetButtonText(AvailableButtonInfo.ButtonTextToDisplay);
-		AddedButton->SetTriggeredInputAction(InputActionRowHandle); // 어떤 키를 사용하여 해당 버튼을 작동시킬지도 함께 설정 가능
+		AddedButton->SetTriggeringInputAction(InputActionRowHandle); // 이 버튼을 어떤 키/패드 입력으로 누를 수 있게 할 것인가
 		AddedButton->OnClicked().AddLambda(
 			[ClickedButtonCallback, AvailableButtonInfo, this]()
 			{
