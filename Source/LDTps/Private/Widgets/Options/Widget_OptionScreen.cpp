@@ -4,6 +4,9 @@
 #include "Widgets/Options/Widget_OptionScreen.h"
 #include "Input/CommonUIInputTypes.h"
 #include "ICommonInputModule.h"
+#include "Widgets/Options/OptionsDataRegistry.h"
+#include "Widgets/Components/FrontendTabListWidgetBase.h"
+#include "Widgets/Options/DataObjects/ListDataObject_Collection.h"
 
 #include "LDTpsDebugHelper.h"
 
@@ -33,6 +36,47 @@ void UWidget_OptionScreen::NativeOnInitialized()
 			FSimpleDelegate::CreateUObject(this, &ThisClass::OnBackBoundActionTriggered)
 		)
 	);
+}
+
+void UWidget_OptionScreen::NativeOnActivated()
+{
+	Super::NativeOnActivated();
+
+	// 옵션 화면이 활성화될 때마다 데이터 레지스트리를 가져오거나 생성하여 각 탭 컬렉션에 대한 처리를 수행합니다.
+	for(UListDataObject_Collection* TabCollection : GetOrCreateDataRegistry()->GetRegisteredOptionsTabCollections())
+	{
+		// 각 탭 컬렉션에 대한 처리 로직을 여기에 추가합니다.
+		if (!TabCollection)
+		{
+			continue;
+		}
+
+		const FName TabID = TabCollection->GetDataID();
+
+		// ID를 찾는다면 이미 이전에 탭이 생성되어 있다는 뜻이므로 새로 등록하지 않습니다.
+		if (TabListWidget_OptionsTabs->GetTabButtonBaseByID(TabID) != nullptr)
+		{
+			continue;
+		}
+
+		// ID를 찾을 수 없다면 새로 탭을 등록합니다.
+		TabListWidget_OptionsTabs->RequestRegisterTab(TabID, TabCollection->GetDataDisplayName());
+	}
+}
+
+UOptionsDataRegistry* UWidget_OptionScreen::GetOrCreateDataRegistry()
+{
+	// 옵션 화면에서 데이터 레지스트리가 이미 생성되어 있는지 확인합니다. 
+	// 없다면 새로 생성하고 초기화합니다.
+	if (!CreatedOwningDataRegistry)
+	{
+		CreatedOwningDataRegistry = NewObject<UOptionsDataRegistry>();
+		CreatedOwningDataRegistry->InitOptionDataRegistry(GetOwningLocalPlayer());
+	}
+
+	checkf(CreatedOwningDataRegistry, TEXT("Data registry for options screen is not valid"));
+
+	return CreatedOwningDataRegistry;
 }
 
 void UWidget_OptionScreen::OnResetBoundActionTriggered()
