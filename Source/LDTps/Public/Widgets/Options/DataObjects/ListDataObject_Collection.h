@@ -18,7 +18,7 @@ public:
 	void AddChildListData(UListDataObject_Base* InChildListData);
 
 	//~ Begin UListDataObject_Base Interface
-	virtual TArray<UListDataObject_Base*> GetChildSettingData() const override;
+	virtual TArray<UListDataObject_Base*> GetAllChildSettingData() const override;
 	virtual bool HasAnyChildListData() const override;
 	// ~ End UListDataObject_Base Interface
 

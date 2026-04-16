@@ -13,7 +13,7 @@
 /**
  * 옵션 메뉴에서 리스트 항목의 데이터를 담는 객체의 베이스 클래스입니다.
  */
-UCLASS()
+UCLASS(Abstract)
 class LDTPS_API UListDataObject_Base : public UObject
 {
 	GENERATED_BODY()
@@ -29,7 +29,7 @@ public:
 	void InitDataObject();
 
 	// 자식 클래스인 ListDataObject_Collection에서 이 함수를 오버라이드하여 하위 탭에 있는 데이터들을 반환하도록 구현할 예정입니다.
-	virtual TArray<UListDataObject_Base*> GetChildSettingData() const { return TArray<UListDataObject_Base*>(); }
+	virtual TArray<UListDataObject_Base*> GetAllChildSettingData() const { return TArray<UListDataObject_Base*>(); }
 	virtual bool HasAnyChildListData() const { return false; }
 
 protected:

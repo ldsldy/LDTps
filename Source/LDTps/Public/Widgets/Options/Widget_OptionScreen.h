@@ -8,6 +8,8 @@
 
 class UOptionsDataRegistry;
 class UFrontendTabListWidgetBase;
+class UFrontendCommonListView;
+
 /**
  * 
  */
@@ -31,6 +33,8 @@ private:
 	void OnResetBoundActionTriggered();
 	void OnBackBoundActionTriggered();
 
+	// 옵션 스크린의 탭이 선택될 때마다 호출되는 핸들러입니다. 
+	// 선택된 탭 ID에 따라 CommonListView의 데이터 소스를 업데이트하는 등의 처리를 수행할 수 있습니다.
 	UFUNCTION()
 	void OnOptionsTabSelected(FName TabId);
 
@@ -38,6 +42,9 @@ private:
 	// ****** Bound Widgets ****** //
 	UPROPERTY(meta = (BindWidget))
 	UFrontendTabListWidgetBase* TabListWidget_OptionsTabs;
+
+	UPROPERTY(meta = (BindWidget))
+	UFrontendCommonListView* CommonListView_OptionsList;
 	// ****** Bound Widgets ****** //
 
 	// 옵션 화면에서 데이터의 생성을 처리하는 핸들러, 이 변수에 대한 직접 액세스는 금지됩니다.

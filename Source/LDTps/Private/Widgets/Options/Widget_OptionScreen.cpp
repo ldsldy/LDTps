@@ -7,6 +7,7 @@
 #include "Widgets/Options/OptionsDataRegistry.h"
 #include "Widgets/Components/FrontendTabListWidgetBase.h"
 #include "Widgets/Options/DataObjects/ListDataObject_Collection.h"
+#include "Widgets/Components/FrontendCommonListView.h"
 
 #include "LDTpsDebugHelper.h"
 
@@ -93,5 +94,16 @@ void UWidget_OptionScreen::OnBackBoundActionTriggered()
 
 void UWidget_OptionScreen::OnOptionsTabSelected(FName TabId)
 {
-	Debug::Print(TEXT("New Tab Selected. Tab ID: ") + TabId.ToString());
+	TArray<UListDataObject_Base*> FoundListSourceItems = GetOrCreateDataRegistry()->GetListSourceItemsBySelectedTabID(TabId);
+	
+	CommonListView_OptionsList->SetListItems(FoundListSourceItems);
+	CommonListView_OptionsList->RequestRefresh();
+
+	// CommonListView_OptionsList의 아이템 갯수가 0이 아니라면,
+	// 인덱스 0으로 이동하여 해당 아이템을 선택 상태로 만듭니다.
+	if (CommonListView_OptionsList->GetNumItems() != 0)
+	{
+		CommonListView_OptionsList->NavigateToIndex(0);
+		CommonListView_OptionsList->SetSelectedIndex(0);
+	}
 }
