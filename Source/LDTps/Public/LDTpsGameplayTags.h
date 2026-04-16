@@ -18,6 +18,7 @@ namespace LDTpsGameplayTags
 	// UI Widgets 게임플레이 태그
 	LDTPS_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(UI_Widget_Frontend_PressAnyKeyScreen);
 	LDTPS_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(UI_Widget_Frontend_MainMenuScreen);
-	LDTPS_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(UI_Widget_Frontend_ConfirmScreen);
+	LDTPS_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(UI_Widget_Frontend_OptionsScreen);
 
+	LDTPS_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(UI_Widget_Frontend_ConfirmScreen);
 }
