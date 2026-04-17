@@ -2,6 +2,9 @@
 
 
 #include "Widgets/Options/DataObjects/ListDataObject_String.h"
+#include "Widgets/Options/OptionsDataInteractionHelper.h"
+
+#include "LDTpsDebugHelper.h"
 
 void UListDataObject_String::AddDynamicOption(const FString& InStringValue, const FText& InDisplayText)
 {
@@ -35,8 +38,17 @@ void UListDataObject_String::AdvanceToNextOption()
 	// CurrentStringValue에 해당하는 CurrentDisplayText를 설정합니다.
 	TrySetDisplayTextFromStringValue(CurrentStringValue);
 
-	NotifyListDataModified(this);
+	// 문자열 값을 DynamicSetter를 통해 LDTpsGameUserSettings에 저장합니다.
+	if (DataDynamicSetter)
+	{
+		DataDynamicSetter->SetValueFromString(CurrentStringValue);
+		
+		Debug::Print(TEXT("DataDynamicSetter is used. The latest value from Getter: ") + DataDynamicGetter->GetValueAsString());
 
+		// 이 데이터 오브젝트가 수정되었다는 것을 알립니다. 
+		// 이를 통해 이 데이터 오브젝트를 참조하는 다른 데이터 오브젝트나 UI 위젯이 변경 사항을 인지하고 업데이트할 수 있도록 합니다.
+		NotifyListDataModified(this);
+	}
 }
 
 void UListDataObject_String::BackToPreviousOption()
@@ -65,7 +77,15 @@ void UListDataObject_String::BackToPreviousOption()
 	// CurrentStringValue에 해당하는 CurrentDisplayText를 설정합니다.
 	TrySetDisplayTextFromStringValue(CurrentStringValue);
 
-	NotifyListDataModified(this);
+	// 문자열 값을 DynamicSetter를 통해 LDTpsGameUserSettings에 저장합니다.
+	if (DataDynamicSetter)
+	{
+		DataDynamicSetter->SetValueFromString(CurrentStringValue);
+
+		Debug::Print(TEXT("DataDynamicSetter is used. The latest value from Getter: ") + DataDynamicGetter->GetValueAsString());
+
+		NotifyListDataModified(this);
+	}
 }
 
 void UListDataObject_String::OnDataObjectInitialized()
@@ -76,6 +96,13 @@ void UListDataObject_String::OnDataObjectInitialized()
 	}
 
 	// TODO : 저장된 문자열 값을 읽어서 CurrentStringValue에 사용하도록 해야 합니다.
+	if (DataDynamicGetter)
+	{
+		if (!DataDynamicGetter->GetValueAsString().IsEmpty())
+		{
+			CurrentStringValue = DataDynamicGetter->GetValueAsString();
+		}
+	}
 
 	// CurrentStringValue에 해당하는 CurrentDisplayText를 설정합니다. 
 	// 만약 CurrentStringValue가 AvailableOptionsStringArray에 없다면, 

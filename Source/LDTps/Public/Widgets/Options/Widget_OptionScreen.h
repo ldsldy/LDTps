@@ -13,7 +13,7 @@ class UFrontendCommonListView;
 /**
  * 
  */
-UCLASS()
+UCLASS(Abstract, BlueprintType, meta = (DisableNativeTick))
 class LDTPS_API UWidget_OptionScreen : public UWidget_ActivatableBase
 {
 	GENERATED_BODY()
@@ -25,6 +25,7 @@ protected:
 
 	// ~ Begin UCommonActivatableWidget Interface
 	virtual void NativeOnActivated() override;
+	virtual void NativeOnDeactivated() override;
 	// ~ End UCommonActivatableWidget Interface
 
 private:
@@ -37,6 +38,9 @@ private:
 	// 선택된 탭 ID에 따라 CommonListView의 데이터 소스를 업데이트하는 등의 처리를 수행할 수 있습니다.
 	UFUNCTION()
 	void OnOptionsTabSelected(FName TabId);
+
+	void OnListViewItemHovered(UObject* InHoveredItem, bool bWasHovered);
+	void OnListViewItemSelected(UObject* InSelectedItem);
 
 private:
 	// ****** Bound Widgets ****** //

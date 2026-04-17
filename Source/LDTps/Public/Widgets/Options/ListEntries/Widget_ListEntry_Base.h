@@ -20,6 +20,11 @@ class LDTPS_API UWidget_ListEntry_Base : public UCommonUserWidget, public IUserO
 {
 	GENERATED_BODY()
 	
+public:
+	UFUNCTION(BlueprintImplementableEvent, meta = (DisplayName = "On List Entry Widget Hovered"))
+	void BP_OnListEntryWidgetHovered(bool bWasHovered, bool bIsEntryWidgetStillSelected);
+	void NativeOnListEntryWidgetHovered(bool bWasHovered);
+
 protected:
 	// ~ Begin IUserObjectListEntry Interface
 	virtual void NativeOnListItemObjectSet(UObject* ListItemObject) override;
@@ -31,6 +36,8 @@ protected:
 
 	// 하위 클래스는 이 함수를 오버라이드하여 데이터 오브젝트가 수정된 후 UI 값을 업데이트하는 처리를 해야 합니다. super 호출은 필요하지 않습니다.
 	virtual void OnOwningListDataObjectModified(UListDataObject_Base* OwningModifiedData, EOptionsListDataModifyReason ModifyReason);
+
+	void SelectThisEntryWidget();
 
 private:
 	// ****** Bound Widgets ****** //

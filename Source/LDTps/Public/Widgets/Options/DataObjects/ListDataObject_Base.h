@@ -36,6 +36,7 @@ public:
 	virtual TArray<UListDataObject_Base*> GetAllChildSettingData() const { return TArray<UListDataObject_Base*>(); }
 	virtual bool HasAnyChildListData() const { return false; }
 
+	void SetShouldApplySettingsImmediately(bool bshouldApplyRightAway) { bShouldApplyChangeImmediatly = bshouldApplyRightAway; }
 protected:
 	// 베이스에서는 아무 기능이 없습니다. 자식 클래스는 이 함수를 오버라이드하여 초기화가 필요한 경우에 맞게 처리해야 합니다.
 	virtual void OnDataObjectInitialized();
@@ -51,4 +52,6 @@ private:
 
 	UPROPERTY(Transient)
 	UListDataObject_Base* ParentData; // 하위 탭에 있는 데이터
+
+	bool bShouldApplyChangeImmediatly = false;
 };
