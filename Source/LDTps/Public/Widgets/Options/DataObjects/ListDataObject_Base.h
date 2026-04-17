@@ -37,6 +37,12 @@ public:
 	virtual bool HasAnyChildListData() const { return false; }
 
 	void SetShouldApplySettingsImmediately(bool bshouldApplyRightAway) { bShouldApplyChangeImmediatly = bshouldApplyRightAway; }
+
+	// 자식 클래스는 이 함수들을 오버라이드하여 데이터를 초기화하는 기능을 제공해야 합니다.
+	virtual bool HasDefaultValue() const { return false; }
+	virtual bool CanResetBackToDefaultValue() const { return false; }
+	virtual bool TryResetBackToDefaultValue() { return false; }
+
 protected:
 	// 베이스에서는 아무 기능이 없습니다. 자식 클래스는 이 함수를 오버라이드하여 초기화가 필요한 경우에 맞게 처리해야 합니다.
 	virtual void OnDataObjectInitialized();

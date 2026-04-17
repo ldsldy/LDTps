@@ -9,6 +9,7 @@
 class UOptionsDataRegistry;
 class UFrontendTabListWidgetBase;
 class UFrontendCommonListView;
+class UWidget_OptionsDetailsView;
 
 /**
  * 
@@ -42,6 +43,8 @@ private:
 	void OnListViewItemHovered(UObject* InHoveredItem, bool bWasHovered);
 	void OnListViewItemSelected(UObject* InSelectedItem);
 
+	FString TryGetEntryWidgetClassName(UObject* InOwningListItem) const;
+
 private:
 	// ****** Bound Widgets ****** //
 	UPROPERTY(meta = (BindWidget))
@@ -49,6 +52,9 @@ private:
 
 	UPROPERTY(meta = (BindWidget))
 	UFrontendCommonListView* CommonListView_OptionsList;
+
+	UPROPERTY(meta = (BindWidget))
+	UWidget_OptionsDetailsView* DetailsView_ListEntryInfo;
 	// ****** Bound Widgets ****** //
 
 	// 옵션 화면에서 데이터의 생성을 처리하는 핸들러, 이 변수에 대한 직접 액세스는 금지됩니다.

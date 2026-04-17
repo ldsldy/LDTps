@@ -53,10 +53,12 @@ void UOptionsDataRegistry::InitGameplayCollectionTab()
 		UListDataObject_String* GameDifficulty = NewObject<UListDataObject_String>();
 		GameDifficulty->SetDataID(FName("GameDifficulty"));
 		GameDifficulty->SetDataDisplayName(FText::FromString(TEXT("Difficulty")));
+		GameDifficulty->SetDescriptionRichText(FText::FromString(TEXT("Adjusts the difficulty of the game experience.\n\n<Bold>Easy:</> Focuses on the story experience. Provides the most relaxing combat.\n\n<Bold>Normal:</>Offers slightly more harder combat experience.\n\n<Bold>Hard:</>Provides a challenging experience for seasoned players.\n\n<Bold>Very Hard:</>Provides the most challenging combat experience. Not recommended for first play through.")));
 		GameDifficulty->AddDynamicOption(TEXT("Easy"), FText::FromString(TEXT("Easy")));
 		GameDifficulty->AddDynamicOption(TEXT("Normal"), FText::FromString(TEXT("Normal")));
 		GameDifficulty->AddDynamicOption(TEXT("Hard"), FText::FromString(TEXT("Hard")));
 		GameDifficulty->AddDynamicOption(TEXT("Very Hard"), FText::FromString(TEXT("Very Hard")));
+		GameDifficulty->SetDefaultValueFromString(TEXT("Normal")); // 기본값을 "Normal"로 설정합니다.
 		GameDifficulty->SetDataDynamicGetter(MAKE_OPTION_DATA_CONTROL(GetCurrentGameDifficulty));
 		GameDifficulty->SetDataDynamicSetter(MAKE_OPTION_DATA_CONTROL(SetCurrentGameDifficulty));
 		GameDifficulty->SetShouldApplySettingsImmediately(true);
