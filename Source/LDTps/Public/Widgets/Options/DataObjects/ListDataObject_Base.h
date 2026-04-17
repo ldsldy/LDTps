@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
+#include "Types/LDTPSUIEnum.h"
 #include "ListDataObject_Base.generated.h"
 
 #define LIST_DATA_ACCESSOR(DataType, PropertyName) \
@@ -19,6 +20,9 @@ class LDTPS_API UListDataObject_Base : public UObject
 	GENERATED_BODY()
 	
 public:
+	DECLARE_MULTICAST_DELEGATE_TwoParams(FOnListDataModifiedDelegate, UListDataObject_Base*, EOptionsListDataModifyReason);
+	FOnListDataModifiedDelegate OnListDataModified;
+
 	LIST_DATA_ACCESSOR(FName, DataID)
 	LIST_DATA_ACCESSOR(FText, DataDisplayName)
 	LIST_DATA_ACCESSOR(FText, DescriptionRichText)
@@ -35,6 +39,8 @@ public:
 protected:
 	// 베이스에서는 아무 기능이 없습니다. 자식 클래스는 이 함수를 오버라이드하여 초기화가 필요한 경우에 맞게 처리해야 합니다.
 	virtual void OnDataObjectInitialized();
+
+	virtual void NotifyListDataModified(UListDataObject_Base* ModifiedData, EOptionsListDataModifyReason ModifyReason = EOptionsListDataModifyReason::DirectlyModified);
 
 private:
 	FName DataID;

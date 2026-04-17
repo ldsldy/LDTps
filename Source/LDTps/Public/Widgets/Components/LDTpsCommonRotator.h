@@ -14,5 +14,6 @@ class LDTPS_API ULDTpsCommonRotator : public UCommonRotator
 {
 	GENERATED_BODY()
 
-
+public:
+	void SetSelectedOptionByText(const FText& InTextOption);
 };

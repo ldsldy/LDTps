@@ -17,3 +17,11 @@ enum class EConfirmScreenButtonType : uint8
 	Closed,					// 닫기 버튼
 	Unkown UMETA(Hidden)
 };
+
+UENUM(BlueprintType)
+enum class EOptionsListDataModifyReason : uint8
+{
+	DirectlyModified,	// 그대로 수정
+	DependencyModified, // 의존성으로 인해 수정
+	ResetToDefault,     // 기본값으로 초기화
+};
