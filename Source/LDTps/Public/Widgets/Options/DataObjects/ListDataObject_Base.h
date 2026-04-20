@@ -20,8 +20,8 @@ class LDTPS_API UListDataObject_Base : public UObject
 	GENERATED_BODY()
 	
 public:
-	DECLARE_MULTICAST_DELEGATE_TwoParams(FOnListDataModifiedDelegate, UListDataObject_Base*, EOptionsListDataModifyReason);
-	FOnListDataModifiedDelegate OnListDataModified;
+	DECLARE_MULTICAST_DELEGATE_TwoParams(FOnListDataModifiedDelegate, UListDataObject_Base*, EOptionsListDataModifyReason); // 리스트 데이터가 수정되었을 때, 해당 데이터를 사용하는 위젯들에게 변경 사항을 알리기 위한 델리게이트입니다. 첫 번째 매개변수는 수정된 데이터 객체 자신을 가리키며, 두 번째 매개변수는 수정 이유를 나타냅니다.
+	FOnListDataModifiedDelegate OnListDataModified;	// 리스트 데이터가 수정되었을 때, 해당 데이터를 사용하는 위젯들에게 변경 사항을 알리기 위한 델리게이트입니다.
 
 	LIST_DATA_ACCESSOR(FName, DataID)
 	LIST_DATA_ACCESSOR(FText, DataDisplayName)

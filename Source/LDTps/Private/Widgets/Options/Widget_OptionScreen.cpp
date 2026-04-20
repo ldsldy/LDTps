@@ -121,6 +121,44 @@ void UWidget_OptionScreen::OnOptionsTabSelected(FName TabId)
 		CommonListView_OptionsList->NavigateToIndex(0);
 		CommonListView_OptionsList->SetSelectedIndex(0);
 	}
+
+	// 탭이 변경될 때마다 ResetableDataArray를 초기화하여 이전 탭에서 리셋 가능한 데이터가 남아있지 않도록 합니다.
+	// 그리고 새로 선택된 탭에 해당하는 아이템들 중에서 리셋이 가능한 데이터들을 찾아 ResetableDataArray에 추가합니다.
+	// 이렇게 하면 탭이 변경될 때마다 리셋 가능한 데이터들이 올바르게 관리되고, 리셋 액션이 트리거될 때 해당 데이터들을 활용할 수 있게 됩니다.
+	ResetableDataArray.Empty();
+
+	for (UListDataObject_Base* FoundListSourceItem : FoundListSourceItems)
+	{
+		if (!FoundListSourceItem)
+		{
+			continue;
+		}
+
+		// 각 리스트 데이터가 수정될 때마다 해당 데이터의 OnListDataModified 리셋 가능 여부를 체크하여 ResetableDataArray에 추가하거나 제거하는 로직을 구현합니다.
+		if (!FoundListSourceItem->OnListDataModified.IsBoundToObject(this))
+		{
+			FoundListSourceItem->OnListDataModified.AddUObject(this, &ThisClass::OnListViewListDataModified);
+		}
+		
+		if (FoundListSourceItem->CanResetBackToDefaultValue()) // 리셋이 가능한 데이터라면
+		{
+			ResetableDataArray.AddUnique(FoundListSourceItem); // ResetableDataArray에 추가하여 추후 리셋 처리 시 활용할 수 있도록 합니다.
+		}
+	}
+
+	// 리셋 가능한 데이터가 없는 경우, "리셋" 액션의 바인딩을 제거하여 비활성화합니다.
+	if (ResetableDataArray.IsEmpty())
+	{
+		RemoveActionBinding(ResetActionHandle);
+	}
+	else
+	{
+		// 리셋 가능한 데이터가 존재하는 경우, "리셋" 액션이 바인딩되어 있지 않다면 바인딩을 추가하여 활성화합니다.
+		if (!GetActionBindings().Contains(ResetActionHandle))
+		{
+			AddActionBinding(ResetActionHandle);
+		}
+	}
 }
 
 void UWidget_OptionScreen::OnListViewItemHovered(UObject* InHoveredItem, bool bWasHovered)
@@ -177,4 +215,38 @@ FString UWidget_OptionScreen::TryGetEntryWidgetClassName(UObject* InOwningListIt
 	}
 
 	return TEXT("Entry Widget Not Valid");
+}
+
+void UWidget_OptionScreen::OnListViewListDataModified(UListDataObject_Base* ModifiedData, EOptionsListDataModifyReason ModifyReason)
+{
+	if (!ModifiedData)
+	{
+		return;
+	}
+
+	if (ModifiedData->CanResetBackToDefaultValue())
+	{
+		// 리셋이 가능한 데이터가 수정된 경우, ResetableDataArray에 해당 데이터를 추가하여 리셋 대상으로 간주되도록 합니다.
+		ResetableDataArray.AddUnique(ModifiedData);
+
+		if(!GetActionBindings().Contains(ResetActionHandle))
+		{	// "리셋" 액션이 바인딩되어 있지 않다면 바인딩을 추가하여 활성화합니다.
+
+			AddActionBinding(ResetActionHandle);
+		}
+	}
+	else
+	{
+		// 리셋이 불가능한 데이터가 수정된 경우, ResetableDataArray에서 해당 데이터를 제거하여 더 이상 리셋 대상으로 간주되지 않도록 합니다.
+		if (ResetableDataArray.Contains(ModifiedData))
+		{
+			ResetableDataArray.Remove(ModifiedData);
+		}
+	}
+
+	if(ResetableDataArray.IsEmpty())
+	{	
+		// 리셋 가능한 데이터가 없는 경우, "리셋" 액션의 바인딩을 제거하여 비활성화합니다.
+		RemoveActionBinding(ResetActionHandle);
+	}
 }

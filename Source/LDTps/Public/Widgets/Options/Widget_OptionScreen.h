@@ -4,12 +4,14 @@
 
 #include "CoreMinimal.h"
 #include "Widgets/Widget_ActivatableBase.h"
+#include "Types/LDTPSUIEnum.h"
 #include "Widget_OptionScreen.generated.h"
 
 class UOptionsDataRegistry;
 class UFrontendTabListWidgetBase;
 class UFrontendCommonListView;
 class UWidget_OptionsDetailsView;
+class UListDataObject_Base;
 
 /**
  * 
@@ -18,7 +20,7 @@ UCLASS(Abstract, BlueprintType, meta = (DisableNativeTick))
 class LDTPS_API UWidget_OptionScreen : public UWidget_ActivatableBase
 {
 	GENERATED_BODY()
-	
+
 protected:
 	// ~ Begin UUserWidget Interface
 	virtual void NativeOnInitialized() override;
@@ -45,6 +47,9 @@ private:
 
 	FString TryGetEntryWidgetClassName(UObject* InOwningListItem) const;
 
+	// 콜백 함수로, 리스트 데이터가 수정되었을 때 호출됩니다.
+	void OnListViewListDataModified(UListDataObject_Base* ModifiedData, EOptionsListDataModifyReason ModifyReason);
+
 private:
 	// ****** Bound Widgets ****** //
 	UPROPERTY(meta = (BindWidget))
@@ -65,4 +70,7 @@ private:
 	FDataTableRowHandle ResetAction;
 
 	FUIActionBindingHandle ResetActionHandle;
+
+	UPROPERTY(Transient)
+	TArray<UListDataObject_Base*> ResetableDataArray; // 리셋 가능한 데이터를 보관하는 배열입니다.
 };
