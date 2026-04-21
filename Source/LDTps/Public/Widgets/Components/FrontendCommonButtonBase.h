@@ -19,6 +19,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SetButtonText(FText InText);
 
+	UFUNCTION(BlueprintCallable)
+	FText GetButtonDisplayText() const;
+
 private:
 	// UWidget interface
 	virtual void NativePreConstruct() override;

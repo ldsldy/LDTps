@@ -11,6 +11,8 @@
 #include "FrontendSettings/LDTpsGameUserSettings.h"
 #include "Widgets/Options/ListEntries/Widget_ListEntry_Base.h"
 #include "Widgets/Options/Widget_OptionsDetailsView.h"
+#include "Subsystems/LDTpsUISubsystem.h"
+#include "Widgets/Components/FrontendCommonButtonBase.h"
 
 #include "LDTpsDebugHelper.h"
 
@@ -97,7 +99,25 @@ UOptionsDataRegistry* UWidget_OptionScreen::GetOrCreateDataRegistry()
 
 void UWidget_OptionScreen::OnResetBoundActionTriggered()
 {
-	Debug::Print(TEXT("Reset bound action triggered!"));
+	if(ResetableDataArray.IsEmpty())
+	{
+		return;
+	}
+
+	UCommonButtonBase* SelectedTabButton = TabListWidget_OptionsTabs->GetTabButtonBaseByID(TabListWidget_OptionsTabs->GetActiveTab()); // 현재 활성화된 탭의 버튼을 가져옵니다.
+
+	const FString SelectedTabButtonName = CastChecked<UFrontendCommonButtonBase>(SelectedTabButton)->GetButtonDisplayText().ToString();
+
+	// 사용자에게 리셋 확인을 요청하는 모달 스크린을 표시합니다. 사용자가 "예"를 선택하면 ResetableDataArray에 있는 데이터들을 기본값으로 리셋하는 로직을 구현할 수 있습니다.
+	ULDTpsUISubsystem::Get(this)->PushConfirmScreenToModalStackAynsc(
+		EConfirmScreenType::YesNo,
+		FText::FromString(TEXT("Reset")),
+		FText::FromString(TEXT("Are you sure you want to reset all the setting under the ") + SelectedTabButtonName + TEXT(" tab.")),
+		[](EConfirmScreenButtonType ClickedButtonType)
+		{
+
+		}
+	);
 }
 
 void UWidget_OptionScreen::OnBackBoundActionTriggered()

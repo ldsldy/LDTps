@@ -6,6 +6,37 @@
 
 #include "LDTpsDebugHelper.h"
 
+void UListDataObject_String::OnDataObjectInitialized()
+{
+	if (!AvailableOptionsStringArray.IsEmpty())
+	{
+		CurrentStringValue = AvailableOptionsStringArray[0];
+	}
+
+	// 만약 기본값이 있다면, CurrentStringValue을 기본값으로 초기화합니다.
+	if (HasDefaultValue())
+	{
+		CurrentStringValue = GetDefaultValueAsString();
+	}
+
+	// 저장된 값이 있다면 CurrentStringValue에 저장된 값을 사용하도록 해야 합니다.
+	if (DataDynamicGetter)
+	{
+		if (!DataDynamicGetter->GetValueAsString().IsEmpty())
+		{
+			CurrentStringValue = DataDynamicGetter->GetValueAsString();
+		}
+	}
+
+	// CurrentStringValue에 해당하는 CurrentDisplayText를 설정합니다. 
+	// 만약 CurrentStringValue가 AvailableOptionsStringArray에 없다면, 
+	// CurrentDisplayText는 "Invalid Option"으로 설정됩니다.
+	if (!TrySetDisplayTextFromStringValue(CurrentStringValue))
+	{
+		CurrentDisplayText = FText::FromString(TEXT("Invalid Option"));
+	}
+}
+
 void UListDataObject_String::AddDynamicOption(const FString& InStringValue, const FText& InDisplayText)
 {
 	AvailableOptionsStringArray.Add(InStringValue);
@@ -85,31 +116,6 @@ void UListDataObject_String::BackToPreviousOption()
 		Debug::Print(TEXT("DataDynamicSetter is used. The latest value from Getter: ") + DataDynamicGetter->GetValueAsString());
 
 		NotifyListDataModified(this);
-	}
-}
-
-void UListDataObject_String::OnDataObjectInitialized()
-{
-	if (!AvailableOptionsStringArray.IsEmpty())
-	{
-		CurrentStringValue = AvailableOptionsStringArray[0];
-	}
-
-	// TODO : 저장된 문자열 값을 읽어서 CurrentStringValue에 사용하도록 해야 합니다.
-	if (DataDynamicGetter)
-	{
-		if (!DataDynamicGetter->GetValueAsString().IsEmpty())
-		{
-			CurrentStringValue = DataDynamicGetter->GetValueAsString();
-		}
-	}
-
-	// CurrentStringValue에 해당하는 CurrentDisplayText를 설정합니다. 
-	// 만약 CurrentStringValue가 AvailableOptionsStringArray에 없다면, 
-	// CurrentDisplayText는 "Invalid Option"으로 설정됩니다.
-	if (!TrySetDisplayTextFromStringValue(CurrentStringValue))
-	{
-		CurrentDisplayText = FText::FromString(TEXT("Invalid Option"));
 	}
 }
 
