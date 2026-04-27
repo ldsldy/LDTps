@@ -72,5 +72,7 @@ private:
 	FUIActionBindingHandle ResetActionHandle;
 
 	UPROPERTY(Transient)
-	TArray<UListDataObject_Base*> ResetableDataArray; // 리셋 가능한 데이터를 보관하는 배열입니다.
+	TArray<UListDataObject_Base*> ResettableDataArray; // 리셋 가능한 데이터를 보관하는 배열입니다.
+
+	bool bIsResettingData = false; // 데이터가 리셋되는 중인지 여부를 나타내는 플래그입니다. 리셋 작업이 진행 중일 때는 true로 설정됩니다. 이 플래그는 리셋 작업이 완료되면 false로 다시 설정되어야 합니다.
 };

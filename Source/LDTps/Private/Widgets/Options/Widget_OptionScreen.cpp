@@ -99,7 +99,7 @@ UOptionsDataRegistry* UWidget_OptionScreen::GetOrCreateDataRegistry()
 
 void UWidget_OptionScreen::OnResetBoundActionTriggered()
 {
-	if(ResetableDataArray.IsEmpty())
+	if(ResettableDataArray.IsEmpty())
 	{
 		return;
 	}
@@ -113,9 +113,41 @@ void UWidget_OptionScreen::OnResetBoundActionTriggered()
 		EConfirmScreenType::YesNo,
 		FText::FromString(TEXT("Reset")),
 		FText::FromString(TEXT("Are you sure you want to reset all the setting under the ") + SelectedTabButtonName + TEXT(" tab.")),
-		[](EConfirmScreenButtonType ClickedButtonType)
+		[this](EConfirmScreenButtonType ClickedButtonType)
 		{
+			if (ClickedButtonType != EConfirmScreenButtonType::Confirmed)
+			{
+				return;
+			}
 
+			bIsResettingData = true;
+			bool bHasDataFailedToReset = false;
+
+			for (UListDataObject_Base* DataToReset : ResettableDataArray)
+			{
+				if (!DataToReset)
+				{
+					continue;
+				}
+
+				if (DataToReset->TryResetBackToDefaultValue())
+				{
+					Debug::Print(DataToReset->GetDataDisplayName().ToString() + TEXT(" was reset"));
+				}
+				else
+				{
+					bHasDataFailedToReset = true;
+					Debug::Print(DataToReset->GetDataDisplayName().ToString() + TEXT(" failed to reset"));
+				}
+			}
+
+			if (bHasDataFailedToReset)
+			{
+				ResettableDataArray.Empty();
+				RemoveActionBinding(ResetActionHandle);
+			}
+
+			bIsResettingData = false;
 		}
 	);
 }
@@ -145,7 +177,7 @@ void UWidget_OptionScreen::OnOptionsTabSelected(FName TabId)
 	// 탭이 변경될 때마다 ResetableDataArray를 초기화하여 이전 탭에서 리셋 가능한 데이터가 남아있지 않도록 합니다.
 	// 그리고 새로 선택된 탭에 해당하는 아이템들 중에서 리셋이 가능한 데이터들을 찾아 ResetableDataArray에 추가합니다.
 	// 이렇게 하면 탭이 변경될 때마다 리셋 가능한 데이터들이 올바르게 관리되고, 리셋 액션이 트리거될 때 해당 데이터들을 활용할 수 있게 됩니다.
-	ResetableDataArray.Empty();
+	ResettableDataArray.Empty();
 
 	for (UListDataObject_Base* FoundListSourceItem : FoundListSourceItems)
 	{
@@ -162,12 +194,12 @@ void UWidget_OptionScreen::OnOptionsTabSelected(FName TabId)
 		
 		if (FoundListSourceItem->CanResetBackToDefaultValue()) // 리셋이 가능한 데이터라면
 		{
-			ResetableDataArray.AddUnique(FoundListSourceItem); // ResetableDataArray에 추가하여 추후 리셋 처리 시 활용할 수 있도록 합니다.
+			ResettableDataArray.AddUnique(FoundListSourceItem); // ResetableDataArray에 추가하여 추후 리셋 처리 시 활용할 수 있도록 합니다.
 		}
 	}
 
 	// 리셋 가능한 데이터가 없는 경우, "리셋" 액션의 바인딩을 제거하여 비활성화합니다.
-	if (ResetableDataArray.IsEmpty())
+	if (ResettableDataArray.IsEmpty())
 	{
 		RemoveActionBinding(ResetActionHandle);
 	}
@@ -239,7 +271,7 @@ FString UWidget_OptionScreen::TryGetEntryWidgetClassName(UObject* InOwningListIt
 
 void UWidget_OptionScreen::OnListViewListDataModified(UListDataObject_Base* ModifiedData, EOptionsListDataModifyReason ModifyReason)
 {
-	if (!ModifiedData)
+	if (!ModifiedData || bIsResettingData)
 	{
 		return;
 	}
@@ -247,7 +279,7 @@ void UWidget_OptionScreen::OnListViewListDataModified(UListDataObject_Base* Modi
 	if (ModifiedData->CanResetBackToDefaultValue())
 	{
 		// 리셋이 가능한 데이터가 수정된 경우, ResetableDataArray에 해당 데이터를 추가하여 리셋 대상으로 간주되도록 합니다.
-		ResetableDataArray.AddUnique(ModifiedData);
+		ResettableDataArray.AddUnique(ModifiedData);
 
 		if(!GetActionBindings().Contains(ResetActionHandle))
 		{	// "리셋" 액션이 바인딩되어 있지 않다면 바인딩을 추가하여 활성화합니다.
@@ -258,13 +290,13 @@ void UWidget_OptionScreen::OnListViewListDataModified(UListDataObject_Base* Modi
 	else
 	{
 		// 리셋이 불가능한 데이터가 수정된 경우, ResetableDataArray에서 해당 데이터를 제거하여 더 이상 리셋 대상으로 간주되지 않도록 합니다.
-		if (ResetableDataArray.Contains(ModifiedData))
+		if (ResettableDataArray.Contains(ModifiedData))
 		{
-			ResetableDataArray.Remove(ModifiedData);
+			ResettableDataArray.Remove(ModifiedData);
 		}
 	}
 
-	if(ResetableDataArray.IsEmpty())
+	if(ResettableDataArray.IsEmpty())
 	{	
 		// 리셋 가능한 데이터가 없는 경우, "리셋" 액션의 바인딩을 제거하여 비활성화합니다.
 		RemoveActionBinding(ResetActionHandle);
