@@ -12,9 +12,12 @@ namespace LDTpsGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(UI_WidgetStack_Frontend, "UI.WidgetStack.Frontend");
 
 	// UI Widgets 게임플레이 태그
-	UE_DEFINE_GAMEPLAY_TAG(UI_Widget_Frontend_PressAnyKeyScreen,	"UI.Widget.Frontend.PressAnyKeyScreen");
+	UE_DEFINE_GAMEPLAY_TAG(UI_Widget_Frontend_PressAnyKeyScreen, "UI.Widget.Frontend.PressAnyKeyScreen");
 	UE_DEFINE_GAMEPLAY_TAG(UI_Widget_Frontend_MainMenuScreen, "UI.Widget.Frontend.MainMenuScreen");
 	UE_DEFINE_GAMEPLAY_TAG(UI_Widget_Frontend_OptionsScreen, "UI.Widget.Frontend.OptionsScreen");
 
 	UE_DEFINE_GAMEPLAY_TAG(UI_Widget_Frontend_ConfirmScreen, "UI.Widget.Frontend.ConfirmScreen");
+
+	// UI Widget 이미지
+	UE_DEFINE_GAMEPLAY_TAG(UI_Image_Frontend_TestImage, "UI.Image.Frontend.TestImage");
 }		

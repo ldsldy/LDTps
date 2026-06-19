@@ -21,4 +21,7 @@ namespace LDTpsGameplayTags
 	LDTPS_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(UI_Widget_Frontend_OptionsScreen);
 
 	LDTPS_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(UI_Widget_Frontend_ConfirmScreen);
+
+	// UI Widget 이미지 게임플레이 태그
+	LDTPS_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(UI_Image_Frontend_TestImage);
 }

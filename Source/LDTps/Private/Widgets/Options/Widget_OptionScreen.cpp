@@ -82,6 +82,19 @@ void UWidget_OptionScreen::NativeOnDeactivated()
 	ULDTpsGameUserSettings::Get()->ApplySettings(true);
 }
 
+UWidget* UWidget_OptionScreen::NativeGetDesiredFocusTarget() const
+{
+	if (UObject* SelectedObject = CommonListView_OptionsList->GetSelectedItem())
+	{
+		if (UUserWidget* SelectedEntryWidget = CommonListView_OptionsList->GetEntryWidgetFromItem(SelectedObject))
+		{
+			return SelectedEntryWidget;
+		}
+	}
+
+	return Super::NativeGetDesiredFocusTarget();
+}
+
 UOptionsDataRegistry* UWidget_OptionScreen::GetOrCreateDataRegistry()
 {
 	// 옵션 화면에서 데이터 레지스트리가 이미 생성되어 있는지 확인합니다. 

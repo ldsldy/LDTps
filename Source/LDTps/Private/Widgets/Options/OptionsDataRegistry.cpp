@@ -6,6 +6,8 @@
 #include "Widgets/Options/DataObjects/ListDataObject_String.h"
 #include "Widgets/Options/OptionsDataInteractionHelper.h"
 #include "FrontendSettings/LDTpsGameUserSettings.h"
+#include "UIFunctionLibrary.h"
+#include "LDTpsGameplayTags.h"
 
 //FOptionsDataInteractionHelper 객체를 생성하는 매크로
 #define MAKE_OPTION_DATA_CONTROL(SetterOrGetterFuncName) \
@@ -70,7 +72,9 @@ void UOptionsDataRegistry::InitGameplayCollectionTab()
 	{
 		UListDataObject_String* TestItem = NewObject<UListDataObject_String>();
 		TestItem->SetDataID(FName("TestItem"));
-		TestItem->SetDataDisplayName(FText::FromString(TEXT("Test Item")));
+		TestItem->SetDataDisplayName(FText::FromString(TEXT("Test Image Item")));
+		TestItem->SetSoftDescriptionImage(UUIFunctionLibrary::GetOptionsSoftImageByTag(LDTpsGameplayTags::UI_Image_Frontend_TestImage));
+		TestItem->SetDescriptionRichText(FText::FromString(TEXT("The image to display can be specified in the project settings. It can be anything the developer assigned in there")));
 
 		GameplayTabCollection->AddChildListData(TestItem);
 	}

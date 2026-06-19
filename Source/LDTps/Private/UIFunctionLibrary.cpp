@@ -13,3 +13,12 @@ TSoftClassPtr<UWidget_ActivatableBase> UUIFunctionLibrary::GetSoftWidgetClassByT
 	// FindRef() 함수는 TMap에서 키에 해당하는 값을 참조로 반환하는 함수입니다.
 	return FrontendDeveloperSettings->FrontendWidgetMap.FindRef(InWidgetTag);
 }
+
+TSoftObjectPtr<UTexture2D> UUIFunctionLibrary::GetOptionsSoftImageByTag(FGameplayTag InImageTag)
+{
+	const UFrontendDeveloperSettings* FrontendDeveloperSettings = GetDefault<UFrontendDeveloperSettings>();
+
+	checkf(FrontendDeveloperSettings->OptionsScreenSoftImageMap.Contains(InImageTag), TEXT("Could not find an image accociated with tag %s"), *InImageTag.ToString());
+
+	return FrontendDeveloperSettings->OptionsScreenSoftImageMap.FindRef(InImageTag);
+}
