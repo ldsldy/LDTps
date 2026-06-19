@@ -1,0 +1,27 @@
+// LDY of Project Settings.
+
+#pragma once
+
+#include "NativeGameplayTags.h"
+
+namespace LDTpsGameplayTags
+{
+	// 다른 모듈에서 게임 플레이 태그를 참조할 수 있도록한다.
+	// LDTPS_API
+
+	// UI Widget Stack 게임플레이 태그
+	LDTPS_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(UI_WidgetStack_Modal);
+	LDTPS_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(UI_WidgetStack_GameMenu);
+	LDTPS_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(UI_WidgetStack_GameHUD);
+	LDTPS_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(UI_WidgetStack_Frontend);
+
+	// UI Widgets 게임플레이 태그
+	LDTPS_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(UI_Frontend_Widget_PressAnyKeyScreen);
+	LDTPS_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(UI_Frontend_Widget_MainMenuScreen);
+	LDTPS_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(UI_Frontend_Widget_OptionsScreen);
+
+	LDTPS_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(UI_Frontend_Widget_ConfirmScreen);
+
+	// UI Widget 이미지 게임플레이 태그
+	LDTPS_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(UI_Frontend_Image_TestImage);
+}
