@@ -193,16 +193,44 @@ void UOptionsDataRegistry::InitAudioCollectionTab()
 
 			AudioTabCollection->AddChildListData(SoundFXVolume);
 		}
+	}
 
-		//Test Item
+	// 사운드 카테고리
+	{
+		UListDataObject_Collection* SoundCategoryCollection = NewObject<UListDataObject_Collection>();
+		SoundCategoryCollection->SetDataID(FName("SoundCategoryCollection"));
+		SoundCategoryCollection->SetDataDisplayName(FText::FromString(TEXT("사운드")));
+
+		AudioTabCollection->AddChildListData(SoundCategoryCollection);
+
+		// 백그라운드 사운드 옵션
 		{
-			UListDataObject_String* TestItem = NewObject<UListDataObject_String>();
-			TestItem->SetDataID(FName("TestItem"));
-			TestItem->SetDataDisplayName(FText::FromString(TEXT("테스트 이미지")));
-			TestItem->SetSoftDescriptionImage(UUIFunctionLibrary::GetSoftImageByTag(LDTpsGameplayTags::UI_Frontend_Image_TestImage));
-			TestItem->SetDescriptionRichText(FText::FromString(TEXT("표시할 이미지는 프로젝트 설정에서 지정할 수 있습니다.")));
+			UListDataObject_StringBool* AllowBackgroundAudio = NewObject<UListDataObject_StringBool>();
+			AllowBackgroundAudio->SetDataID(FName("AllowBackgroundAudio"));
+			AllowBackgroundAudio->SetDataDisplayName(FText::FromString(TEXT("백그라운드 사운드 허용")));
+			AllowBackgroundAudio->OverrideTrueDisplayText(FText::FromString(TEXT("허용")));
+			AllowBackgroundAudio->OverrideFalseDisplayText(FText::FromString(TEXT("허용 안함")));
+			AllowBackgroundAudio->SetFalseAsDefaultValue(); // 기본값을 False로 설정합니다.
+			AllowBackgroundAudio->SetDataDynamicGetter(MAKE_OPTION_DATA_CONTROL(GetAllowBackgroundAudio));
+			AllowBackgroundAudio->SetDataDynamicSetter(MAKE_OPTION_DATA_CONTROL(SetAllowBackgroundAudio));
+			AllowBackgroundAudio->SetShouldApplySettingsImmediately(true);
 
-			AudioTabCollection->AddChildListData(TestItem);
+			AudioTabCollection->AddChildListData(AllowBackgroundAudio);
+		}
+
+		// HDR Audio 옵션
+		{
+			UListDataObject_StringBool* UseHDRAudioMode = NewObject<UListDataObject_StringBool>();
+			UseHDRAudioMode->SetDataID(FName("UseHDRAudioMode"));
+			UseHDRAudioMode->SetDataDisplayName(FText::FromString(TEXT("HDR 오디오 활성화")));
+			UseHDRAudioMode->OverrideTrueDisplayText(FText::FromString(TEXT("허용")));
+			UseHDRAudioMode->OverrideFalseDisplayText(FText::FromString(TEXT("허용 안함")));
+			UseHDRAudioMode->SetFalseAsDefaultValue(); // 기본값을 False로 설정합니다.
+			UseHDRAudioMode->SetDataDynamicGetter(MAKE_OPTION_DATA_CONTROL(GetUseHDRAudioMode));
+			UseHDRAudioMode->SetDataDynamicSetter(MAKE_OPTION_DATA_CONTROL(SetUseHDRAudioMode));
+			UseHDRAudioMode->SetShouldApplySettingsImmediately(true);
+
+			AudioTabCollection->AddChildListData(UseHDRAudioMode);
 		}
 	}
 

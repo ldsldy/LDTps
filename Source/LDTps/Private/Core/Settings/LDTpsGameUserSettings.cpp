@@ -11,6 +11,8 @@ ULDTpsGameUserSettings::ULDTpsGameUserSettings()
 	: OverallVolume(1.f) // 기본값을 1.0으로 설정
 	, MusicVolume(1.f)
 	, SoundFXVolume(1.f)
+	, bAllowBackgroundAudio(false)
+	, bUseHDRAudioMode(false)
 {
 
 }
@@ -127,4 +129,18 @@ void ULDTpsGameUserSettings::SetSoundFXVolume(float InNewVolume)
 	UGameplayStatics::SetSoundMixClassOverride(
 		InAudioWorld, DefaultSoundMix, SoundFXSoundClass, SoundFXVolume, 1.f, 0.2f);
 	UGameplayStatics::PushSoundMixModifier(InAudioWorld, DefaultSoundMix);
+}
+
+void ULDTpsGameUserSettings::SetAllowBackgroundAudio(bool bIsAllowed)
+{
+	bAllowBackgroundAudio = bIsAllowed;
+
+	// TODO : 백그라운드 오디오 허용 여부에 따라 게임 오디오를 제어하는 로직을 추가해야 합니다.
+}
+
+void ULDTpsGameUserSettings::SetUseHDRAudioMode(bool bIsAllowed)
+{
+	bUseHDRAudioMode = bIsAllowed;
+
+	// TODO : HDR 오디오 모드 허용 여부에 따라 게임 오디오를 제어하는 로직을 추가해야 합니다.
 }

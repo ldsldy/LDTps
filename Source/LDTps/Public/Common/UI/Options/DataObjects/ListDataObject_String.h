@@ -45,5 +45,25 @@ class LDTPS_API UListDataObject_StringBool : public UListDataObject_String
 {
 	GENERATED_BODY()
 
+public:
+	// True 디스플레이 텍스트를 오버라이드하여 새로운 텍스트로 설정합니다.
+	void OverrideTrueDisplayText(const FText& InNewTrueDisplayText);
 
+	// False 디스플레이 텍스트를 오버라이드하여 새로운 텍스트로 설정합니다.
+	void OverrideFalseDisplayText(const FText& InNewFalseDisplayText);
+
+	void SetTrueAsDefaultValue();
+	void SetFalseAsDefaultValue();
+
+protected:
+	// ~Begin UListDataObject_String Interface
+	virtual void OnDataObjectInitialized() override;
+	// ~End UListDataObject_String Interface
+
+private:
+	// TryInitBoolValues 함수는 True와 False에 대한 기본 옵션을 초기화합니다. 만약 AvailableOptionsStringArray에 TrueString과 FalseString이 없다면, 이 함수는 해당 문자열과 디스플레이 텍스트를 추가합니다.
+	void TryInitBoolValues();
+
+	const FString TrueString = TEXT("True");
+	const FString FalseString = TEXT("False");
 };

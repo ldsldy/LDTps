@@ -45,6 +45,18 @@ public:
 
 	UFUNCTION()
 	void SetSoundFXVolume(float InNewVolume);
+
+	UFUNCTION()
+	bool GetAllowBackgroundAudio() const { return bAllowBackgroundAudio; }
+
+	UFUNCTION()
+	void SetAllowBackgroundAudio(bool bIsAllowed);
+
+	UFUNCTION()
+	bool GetUseHDRAudioMode() const { return bUseHDRAudioMode; }
+
+	UFUNCTION()
+	void SetUseHDRAudioMode(bool bIsAllowed);
 	//***** 오디오 탭 *****//
 
 private:
@@ -64,6 +76,11 @@ private:
 
 	UPROPERTY(Config)
 	float SoundFXVolume;
-	//***** 오디오 탭 *****//
 
+	UPROPERTY(Config)
+	bool bAllowBackgroundAudio;
+
+	UPROPERTY(Config)
+	bool bUseHDRAudioMode;
+	//***** 오디오 탭 *****//
 };
