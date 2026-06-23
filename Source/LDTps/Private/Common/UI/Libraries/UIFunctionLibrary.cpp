@@ -2,7 +2,7 @@
 
 
 #include "Common/UI/Libraries/UIFunctionLibrary.h"
-#include "Common/UI/Settings/LDTpsUIDeveloperSettings.h"
+#include "Common/UI/LDTpsUIDeveloperSettings.h"
 
 TSoftClassPtr<UWidget_ActivatableBase> UUIFunctionLibrary::GetSoftWidgetClassByTag(UPARAM(meta = (Categories = "UI.Widget")) FGameplayTag InWidgetTag)
 {

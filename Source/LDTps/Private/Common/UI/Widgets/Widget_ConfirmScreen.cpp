@@ -4,7 +4,7 @@
 #include "Common/UI/Widgets/Widget_ConfirmScreen.h"
 #include "CommonTextBlock.h"
 #include "Components/DynamicEntryBox.h"
-#include "Common/UI/Widgets/Components/LDTpsCommonButtonBase.h"
+#include "Common/UI/Components/LDTpsCommonButtonBase.h"
 #include "ICommonInputModule.h"
 
 UConfirmScreenInfoObject* UConfirmScreenInfoObject::CreateOKScreen(const FText& InScreenTitle, const FText& InScreenMsg)
@@ -17,7 +17,7 @@ UConfirmScreenInfoObject* UConfirmScreenInfoObject::CreateOKScreen(const FText& 
 	// OK 버튼 정보 설정
     FConfirmScreenButtonInfo OKButtonInfo;
     OKButtonInfo.ConfirmScreenButtonType = EConfirmScreenButtonType::Closed;
-	OKButtonInfo.ButtonTextToDisplay = FText::FromString(TEXT("Ok"));
+	OKButtonInfo.ButtonTextToDisplay = FText::FromString(TEXT("확인"));
 
 	// 버튼 정보를 팝업 정보 객체에 추가
 	InfoObject->AvailableScreenButtons.Add(OKButtonInfo);
@@ -35,12 +35,12 @@ UConfirmScreenInfoObject* UConfirmScreenInfoObject::CreateYesNoScreen(const FTex
 	// Yes 버튼 정보 설정
 	FConfirmScreenButtonInfo YesButtonInfo;
 	YesButtonInfo.ConfirmScreenButtonType = EConfirmScreenButtonType::Confirmed;
-	YesButtonInfo.ButtonTextToDisplay = FText::FromString(TEXT("Yes"));
+	YesButtonInfo.ButtonTextToDisplay = FText::FromString(TEXT("예"));
 	
 	// No 버튼 정보 설정
 	FConfirmScreenButtonInfo NoButtonInfo;
 	NoButtonInfo.ConfirmScreenButtonType = EConfirmScreenButtonType::Cancelled;
-	NoButtonInfo.ButtonTextToDisplay = FText::FromString(TEXT("No"));
+	NoButtonInfo.ButtonTextToDisplay = FText::FromString(TEXT("아니요"));
 
 	// 버튼 정보를 팝업 정보 객체에 추가
 	InfoObject->AvailableScreenButtons.Add(YesButtonInfo);
@@ -59,12 +59,12 @@ UConfirmScreenInfoObject* UConfirmScreenInfoObject::CreateOkCancelScreen(const F
 	// Yes 버튼 정보 설정
 	FConfirmScreenButtonInfo OkButtonInfo;
 	OkButtonInfo.ConfirmScreenButtonType = EConfirmScreenButtonType::Confirmed;
-	OkButtonInfo.ButtonTextToDisplay = FText::FromString(TEXT("Ok"));
+	OkButtonInfo.ButtonTextToDisplay = FText::FromString(TEXT("확인"));
 
 	// No 버튼 정보 설정
 	FConfirmScreenButtonInfo CancelButtonInfo;
 	CancelButtonInfo.ConfirmScreenButtonType = EConfirmScreenButtonType::Cancelled;
-	CancelButtonInfo.ButtonTextToDisplay = FText::FromString(TEXT("Cancel"));
+	CancelButtonInfo.ButtonTextToDisplay = FText::FromString(TEXT("취소"));
 
 	// 버튼 정보를 팝업 정보 객체에 추가
 	InfoObject->AvailableScreenButtons.Add(OkButtonInfo);
