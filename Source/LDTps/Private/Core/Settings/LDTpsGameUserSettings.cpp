@@ -4,6 +4,8 @@
 #include "Core/Settings/LDTpsGameUserSettings.h"
 #include "Common/Audio/LDTpsAudioDeveloperSettings.h"
 #include "Kismet/GameplayStatics.h"
+#include "Sound/SoundClass.h"
+#include "Sound/SoundMix.h"
 
 ULDTpsGameUserSettings::ULDTpsGameUserSettings()
 	: OverallVolume(1.f) // 기본값을 1.0으로 설정

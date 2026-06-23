@@ -37,6 +37,23 @@ float UListDataObject_Scalar::GetCurrentValue() const
 	return 0.f; // 동적 게터가 설정되지 않은 경우, 기본값으로 0을 반환합니다.
 }
 
+void UListDataObject_Scalar::SetCurrentValueFromSlider(float InNewValue)
+{
+	if (DataDynamicSetter)
+	{
+		// DisplayValueRange에서 InNewValue의 위치를 계산 => OutputValueRange의 대응 값으로 변환
+		const float ClampedValue = FMath::GetMappedRangeValueClamped(
+			DisplayValueRange,
+			OutputValueRange,
+			InNewValue
+		);
+
+		DataDynamicSetter->SetValueFromString(LexToString(ClampedValue));
+
+		NotifyListDataModified(this); // 값이 변화되었음을 알림
+	}
+}
+
 float UListDataObject_Scalar::StringToFloat(const FString& InString) const
 {
 	float OutConvertedValue = 0.f;

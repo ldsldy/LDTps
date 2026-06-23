@@ -27,6 +27,8 @@ public:
 	static FCommonNumberFormattingOptions WithDecimal(int32 NumFracDigit); // 소수점 이하 자릿수를 지정하여 숫자 형식 옵션을 생성하는 정적 함수입니다.
 
 	float GetCurrentValue() const;
+	void SetCurrentValueFromSlider(float InNewValue);
+
 private:
 	// 문자열을 float로 변환하는 헬퍼 함수입니다.
 	float StringToFloat(const FString& InString) const;
