@@ -124,8 +124,8 @@ void UWidget_OptionScreen::OnResetBoundActionTriggered()
 	// 사용자에게 리셋 확인을 요청하는 모달 스크린을 표시합니다. 사용자가 "예"를 선택하면 ResetableDataArray에 있는 데이터들을 기본값으로 리셋하는 로직을 구현할 수 있습니다.
 	ULDTpsUISubsystem::Get(this)->PushConfirmScreenToModalStackAynsc(
 		EConfirmScreenType::YesNo,
-		FText::FromString(TEXT("Reset")),
-		FText::FromString(TEXT("Are you sure you want to reset all the setting under the ") + SelectedTabButtonName + TEXT(" tab.")),
+		FText::FromString(TEXT("초기화")),
+		FText::FromString(TEXT("선택한 ") + SelectedTabButtonName + TEXT(" 탭 아래의 모든 설정을 초기화하시겠습니까?")),
 		[this](EConfirmScreenButtonType ClickedButtonType)
 		{
 			if (ClickedButtonType != EConfirmScreenButtonType::Confirmed)
@@ -154,7 +154,7 @@ void UWidget_OptionScreen::OnResetBoundActionTriggered()
 				}
 			}
 
-			if (bHasDataFailedToReset)
+			if (!bHasDataFailedToReset)
 			{
 				ResettableDataArray.Empty();
 				RemoveActionBinding(ResetActionHandle);

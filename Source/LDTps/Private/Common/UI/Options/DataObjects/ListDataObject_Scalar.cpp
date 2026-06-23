@@ -54,6 +54,36 @@ void UListDataObject_Scalar::SetCurrentValueFromSlider(float InNewValue)
 	}
 }
 
+bool UListDataObject_Scalar::CanResetBackToDefaultValue() const
+{
+	if (HasDefaultValue() && DataDynamicGetter)
+	{
+		const float DefaultValue = StringToFloat(GetDefaultValueAsString()); // 기본값을 가져와 float로 변환
+		const float CurrentValue = StringToFloat(DataDynamicGetter->GetValueAsString());
+
+		return !FMath::IsNearlyEqual(DefaultValue, CurrentValue, 0.01f); // 기본값과 현재값이 거의 같은지 비교
+	}
+
+	return false;
+}
+
+bool UListDataObject_Scalar::TryResetBackToDefaultValue()
+{
+	if (CanResetBackToDefaultValue())
+	{
+		if (DataDynamicSetter)
+		{
+			DataDynamicSetter->SetValueFromString(GetDefaultValueAsString()); // 기본값으로 설정
+
+			NotifyListDataModified(this, EOptionsListDataModifyReason::ResetToDefault); // 값이 기본값으로 초기화되었음을 알림
+
+			return true;
+		}
+	}
+
+	return false;
+}
+
 float UListDataObject_Scalar::StringToFloat(const FString& InString) const
 {
 	float OutConvertedValue = 0.f;

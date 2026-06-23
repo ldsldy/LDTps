@@ -30,6 +30,11 @@ public:
 	void SetCurrentValueFromSlider(float InNewValue);
 
 private:
+	// ~ Begin UListDataObject_Base Interface
+	virtual bool CanResetBackToDefaultValue() const override;
+	virtual bool TryResetBackToDefaultValue() override;
+	// ~ End UListDataObject_Base Interface
+
 	// 문자열을 float로 변환하는 헬퍼 함수입니다.
 	float StringToFloat(const FString& InString) const;
 

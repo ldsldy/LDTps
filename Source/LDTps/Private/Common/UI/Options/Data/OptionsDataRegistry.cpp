@@ -155,6 +155,55 @@ void UOptionsDataRegistry::InitAudioCollectionTab()
 
 			AudioTabCollection->AddChildListData(OverallVolume);
 		}
+
+		// 배경음악 볼륨
+		{
+			UListDataObject_Scalar* MusicVolume = NewObject<UListDataObject_Scalar>();
+			MusicVolume->SetDataID(FName("MusicVolume"));
+			MusicVolume->SetDataDisplayName(FText::FromString(TEXT("배경음악 볼륨")));
+			MusicVolume->SetDescriptionRichText(FText::FromString(TEXT("게임 내 배경음악의 볼륨을 조절합니다.")));
+			MusicVolume->SetDisplayValueRange(TRange<float>(0.f, 1.f));
+			MusicVolume->SetOutputValueRange(TRange<float>(0.f, 2.f));
+			MusicVolume->SetSliderStepSize(0.01f);
+			MusicVolume->SetDefaultValueFromString(LexToString(1.f));
+			MusicVolume->SetDisplayNumericType(ECommonNumericType::Percentage);
+			MusicVolume->SetNumberFormattingOptions(UListDataObject_Scalar::NoDecimal());  //No Decimal: 50%  //One Decimal: 50.5%
+			MusicVolume->SetDataDynamicGetter(MAKE_OPTION_DATA_CONTROL(GetMusicVolume));
+			MusicVolume->SetDataDynamicSetter(MAKE_OPTION_DATA_CONTROL(SetMusicVolume));
+			MusicVolume->SetShouldApplySettingsImmediately(true);
+
+			AudioTabCollection->AddChildListData(MusicVolume);
+		}
+
+		// FX 볼륨
+		{
+			UListDataObject_Scalar* SoundFXVolume = NewObject<UListDataObject_Scalar>();
+			SoundFXVolume->SetDataID(FName("SoundFXVolume"));
+			SoundFXVolume->SetDataDisplayName(FText::FromString(TEXT("효과음 볼륨")));
+			SoundFXVolume->SetDescriptionRichText(FText::FromString(TEXT("게임 내 효과음의 볼륨을 조절합니다.")));
+			SoundFXVolume->SetDisplayValueRange(TRange<float>(0.f, 1.f));
+			SoundFXVolume->SetOutputValueRange(TRange<float>(0.f, 2.f));
+			SoundFXVolume->SetSliderStepSize(0.01f);
+			SoundFXVolume->SetDefaultValueFromString(LexToString(1.f));
+			SoundFXVolume->SetDisplayNumericType(ECommonNumericType::Percentage);
+			SoundFXVolume->SetNumberFormattingOptions(UListDataObject_Scalar::NoDecimal());  //No Decimal: 50%  //One Decimal: 50.5%
+			SoundFXVolume->SetDataDynamicGetter(MAKE_OPTION_DATA_CONTROL(GetSoundFXVolume));
+			SoundFXVolume->SetDataDynamicSetter(MAKE_OPTION_DATA_CONTROL(SetSoundFXVolume));
+			SoundFXVolume->SetShouldApplySettingsImmediately(true);
+
+			AudioTabCollection->AddChildListData(SoundFXVolume);
+		}
+
+		//Test Item
+		{
+			UListDataObject_String* TestItem = NewObject<UListDataObject_String>();
+			TestItem->SetDataID(FName("TestItem"));
+			TestItem->SetDataDisplayName(FText::FromString(TEXT("테스트 이미지")));
+			TestItem->SetSoftDescriptionImage(UUIFunctionLibrary::GetSoftImageByTag(LDTpsGameplayTags::UI_Frontend_Image_TestImage));
+			TestItem->SetDescriptionRichText(FText::FromString(TEXT("표시할 이미지는 프로젝트 설정에서 지정할 수 있습니다.")));
+
+			AudioTabCollection->AddChildListData(TestItem);
+		}
 	}
 
 	RegisteredOptionsTabCollections.Add(AudioTabCollection);

@@ -10,6 +10,7 @@ void UWidget_ListEntry_Scalar::NativeOnInitialized()
 	Super::NativeOnInitialized();
 
 	AnalogSlider_SettingSlider->OnValueChanged.AddUniqueDynamic(this, &ThisClass::OnSliderValueChanged);
+	AnalogSlider_SettingSlider->OnMouseCaptureBegin.AddUniqueDynamic(this, &ThisClass::OnSliderMouseCaptureBegin);
 }
 
 void UWidget_ListEntry_Scalar::OnOwningListDataObjectSet(UListDataObject_Base* InOwningListDataObject)
@@ -43,4 +44,9 @@ void UWidget_ListEntry_Scalar::OnSliderValueChanged(float InValue)
 	{
 		CachedOwningScalarDataObject->SetCurrentValueFromSlider(InValue); // 슬라이더의 값이 변경되면, 데이터 객체의 값을 업데이트합니다.
 	}
+}
+
+void UWidget_ListEntry_Scalar::OnSliderMouseCaptureBegin()
+{
+	SelectThisEntryWidget();
 }

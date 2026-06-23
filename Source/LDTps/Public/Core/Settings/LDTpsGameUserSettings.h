@@ -33,6 +33,18 @@ public:
 
 	UFUNCTION()
 	void SetOverallVolume(float InNewVolume);
+
+	UFUNCTION()
+	float GetMusicVolume() const { return MusicVolume; }
+
+	UFUNCTION()
+	void SetMusicVolume(float InNewVolume);
+
+	UFUNCTION()
+	float GetSoundFXVolume() const { return SoundFXVolume; }
+
+	UFUNCTION()
+	void SetSoundFXVolume(float InNewVolume);
 	//***** 오디오 탭 *****//
 
 private:
@@ -46,6 +58,12 @@ private:
 	//***** 오디오 탭 *****//
 	UPROPERTY(Config)
 	float OverallVolume;
+
+	UPROPERTY(Config)
+	float MusicVolume;
+
+	UPROPERTY(Config)
+	float SoundFXVolume;
 	//***** 오디오 탭 *****//
 
 };

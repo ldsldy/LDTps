@@ -15,7 +15,7 @@ FString FOptionsDataInteractionHelper::GetValueAsString() const
 	FString OutStringValue;
 	PropertyPathHelpers::GetPropertyValueAsString(
 		CachedWeakGameUserSettings.Get(),		// 얻을 값이 있는 객체
-		CachedDynamicFunctionPath,				//
+		CachedDynamicFunctionPath,				// 얻을 값의 경로
 		OutStringValue);
 
 	return OutStringValue;

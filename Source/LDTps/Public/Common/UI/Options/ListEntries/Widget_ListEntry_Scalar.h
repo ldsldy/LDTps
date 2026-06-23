@@ -29,8 +29,13 @@ protected:
 	// ~ End UWidget_ListEntry_Base Interface
 
 private:
+	// 슬라이더의 값이 변화할 경우의 콜백 함수
 	UFUNCTION()
 	void OnSliderValueChanged(float InValue);
+
+	// 슬라이더의 마우스 캡처가 시작될 경우의 콜백 함수
+	UFUNCTION()
+	void OnSliderMouseCaptureBegin();
 
 	// ****** Bound Widgets ****** //
 	UPROPERTY(BlueprintReadOnly, meta = (BindWidgetOptional, AllowPrivateAccess = "true"))

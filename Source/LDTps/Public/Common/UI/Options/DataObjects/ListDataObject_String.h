@@ -39,3 +39,11 @@ public:
 	FORCEINLINE const TArray<FText>& GetAvailableOptionsTextArray() const { return AvailableOptionsTextArray; }
 	FORCEINLINE const FText GetCurrentDisplayText() const { return CurrentDisplayText; }
 };
+
+UCLASS()
+class LDTPS_API UListDataObject_StringBool : public UListDataObject_String
+{
+	GENERATED_BODY()
+
+
+};
