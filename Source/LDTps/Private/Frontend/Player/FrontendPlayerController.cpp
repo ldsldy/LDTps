@@ -4,6 +4,7 @@
 #include "Frontend/Player/FrontendPlayerController.h"
 #include "Kismet/GameplayStatics.h"
 #include "Camera/CameraActor.h"
+#include "Core/Settings/LDTpsGameUserSettings.h"
 
 void AFrontendPlayerController::OnPossess(APawn* aPawn)
 {
@@ -17,5 +18,14 @@ void AFrontendPlayerController::OnPossess(APawn* aPawn)
 	if (!FoundCameras.IsEmpty())
 	{
 		SetViewTarget(FoundCameras[0]);
+	}
+
+	ULDTpsGameUserSettings* GameUserSettings = ULDTpsGameUserSettings::Get();
+
+	// CPU 및 GPU 벤치마크 결과가 이전에 수행된 적이 없다면 벤치마크를 수행하도록 설정
+	if (GameUserSettings->GetLastCPUBenchmarkResult() == -1.f || GameUserSettings->GetLastGPUBenchmarkResult() == -1.f)
+	{
+		GameUserSettings->RunHardwareBenchmark();
+		GameUserSettings->ApplyHardwareBenchmarkResults();
 	}
 }
