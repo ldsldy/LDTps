@@ -67,3 +67,40 @@ private:
 	const FString TrueString = TEXT("True");
 	const FString FalseString = TEXT("False");
 };
+
+UCLASS()
+class LDTPS_API UListDataObject_StringEnum : public UListDataObject_String
+{
+	GENERATED_BODY()
+
+public:
+	template<typename EnumType>
+	void AddEnumOption(EnumType InEnumOption, const FText& InDisplayText)
+	{
+		const UEnum* StaticEnumOption = StaticEnum<EnumType>();
+		const FString ConvertedEnumString = StaticEnumOption->GetNameStringByValue(InEnumOption);
+		
+		// 키 값과 보여줄 텍스트를 배열에 추가합니다.
+		AddDynamicOption(ConvertedEnumString, InDisplayText);
+	}
+
+	template<typename EnumType>
+	EnumType GetCurrentValueAsEnum() const
+	{
+		const UEnum* StaticEnumOption = StaticEnum<EnumType>();
+
+		// 현재 문자열 값을 Enum 값으로 변환하여 반환합니다.
+		// String -> UEnum -> EnumType 캐스트
+		return (EnumType)StaticEnumOption->GetValueByNameString(CurrentStringValue);
+	}
+
+	template<typename EnumType>
+	void SetDefaultValueFromEnumOption(EnumType InEnumOption)
+	{
+		const UEnum* StaticEnumOption = StaticEnum<EnumType>();
+		const FString ConvertedEnumString = StaticEnumOption->GetNameStringByValue(InEnumOption);
+
+		// 기본값을 문자열을 받아서 설정합니다.
+		SetDefaultValueFromString(ConvertedEnumString);
+	}
+};
