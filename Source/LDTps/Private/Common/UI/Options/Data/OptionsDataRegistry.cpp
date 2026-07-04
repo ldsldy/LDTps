@@ -60,7 +60,7 @@ TArray<UListDataObject_Base*> UOptionsDataRegistry::GetListSourceItemsBySelected
 
 void UOptionsDataRegistry::FindChildListDataRecursively(UListDataObject_Base* InParentData, TArray<UListDataObject_Base*>& OutFoundChildListData) const
 {
-	if (!InParentData || InParentData->HasAnyChildListData())
+	if (!InParentData || !InParentData->HasAnyChildListData())
 	{
 		return;
 	}
@@ -267,7 +267,7 @@ void UOptionsDataRegistry::InitVideoCollectionTab()
 			WindowMode->SetDataDynamicSetter(MAKE_OPTION_DATA_CONTROL(SetFullscreenMode));
 			WindowMode->SetShouldApplySettingsImmediately(true); // 변경 즉시 적용하도록 설정합니다.
 
-			VideoTabCollection->AddChildListData(WindowMode);
+			DisplayCategoryCollection->AddChildListData(WindowMode);
 		}
 
 		// 화면 해상도
