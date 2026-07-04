@@ -41,6 +41,16 @@ void UWidget_ListEntry_String::OnOwningListDataObjectModified(UListDataObject_Ba
 	}
 }
 
+void UWidget_ListEntry_String::OnToggleEditableState(bool bIsEditable)
+{
+	Super::OnToggleEditableState(bIsEditable);
+
+	// 편집 가능 상태에 따라 이전/다음 버튼과 로테이터의 활성화 상태를 설정.
+	CommonButton_PreviousOption->SetIsEnabled(bIsEditable);
+	CommonRotator_AvailableOptions->SetIsEnabled(bIsEditable);
+	CommonButton_NextOption->SetIsEnabled(bIsEditable);
+}
+
 void UWidget_ListEntry_String::OnPreviousOptionButtonClicked()
 {
 	if (CachedOwningStringDataObject)

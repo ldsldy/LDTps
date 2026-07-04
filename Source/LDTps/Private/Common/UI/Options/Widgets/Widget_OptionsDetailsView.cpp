@@ -37,7 +37,8 @@ void UWidget_OptionsDetailsView::UpdateDetailsViewInfo(UListDataObject_Base* InD
 
 	CommonRichText_DynamicDetails->SetText(FText::FromString(DynamicDetails));
 
-	CommonRichText_DisabledReason->SetText(InDataObject->GetDisabledRichText());
+	// 비활성화 이유를 표시합니다. 데이터가 현재 편집 가능한 경우에는 빈 텍스트를 설정하고, 그렇지 않은 경우에는 비활성화된 리치 텍스트를 설정합니다.
+	CommonRichText_DisabledReason->SetText(InDataObject->IsDataCurrentlyEditable() ? FText::GetEmpty() : InDataObject->GetDisabledRichText());
 }
 
 void UWidget_OptionsDetailsView::ClearDetailsViewInfo()

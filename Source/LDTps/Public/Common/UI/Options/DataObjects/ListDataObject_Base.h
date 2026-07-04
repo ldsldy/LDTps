@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
 #include "Common/UI/Types/LDTPSUIEnum.h"
+#include "Common/UI/Types/LDTPSUIStructTypes.h"
 #include "ListDataObject_Base.generated.h"
 
 #define LIST_DATA_ACCESSOR(DataType, PropertyName) \
@@ -43,11 +44,22 @@ public:
 	virtual bool CanResetBackToDefaultValue() const { return false; }
 	virtual bool TryResetBackToDefaultValue() { return false; }
 
+	//이 함수는 OptionsDataRegister에서 호출되어 생성된 리스트 데이터 객체에 대한 편집 조건을 추가하는 역할을 합니다.
+	void AddEditCondition(const FOptionsDataEditConditionDescriptor& InEditCondition);
+
+	bool IsDataCurrentlyEditable();
+
 protected:
 	// 베이스에서는 아무 기능이 없습니다. 자식 클래스는 이 함수를 오버라이드하여 초기화가 필요한 경우에 맞게 처리해야 합니다.
 	virtual void OnDataObjectInitialized();
 
 	virtual void NotifyListDataModified(UListDataObject_Base* ModifiedData, EOptionsListDataModifyReason ModifyReason = EOptionsListDataModifyReason::DirectlyModified);
+
+	// 하위 클래스는 강제 문자열 값으로 설정할 수 있도록 이 함수를 재정의해야 합니다.
+	virtual bool CanSetToForcedStringValue(const FString& InForcedValue) const { return false; }
+
+	// 하위 클래스는 현재 값을 강제 값으로 설정하는 방법을 지정하기 위해 이 함수를 재정의해야 합니다.
+	virtual void OnSetToForcedStringValue(const FString& InForcedValue) {}
 
 private:
 	FName DataID;
@@ -60,4 +72,7 @@ private:
 	UListDataObject_Base* ParentData; // 하위 탭에 있는 데이터
 
 	bool bShouldApplyChangeImmediatly = false;
+
+	UPROPERTY(Transient)
+	TArray<FOptionsDataEditConditionDescriptor> EditConditionDescArray; // 편집 가능 조건을 나타내는 구조체 배열입니다.
 };

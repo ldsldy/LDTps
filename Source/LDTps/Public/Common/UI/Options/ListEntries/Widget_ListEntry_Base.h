@@ -47,6 +47,9 @@ protected:
 	// 하위 클래스는 이 함수를 오버라이드하여 데이터 오브젝트가 수정된 후 UI 값을 업데이트하는 처리를 해야 합니다. super 호출은 필요하지 않습니다.
 	virtual void OnOwningListDataObjectModified(UListDataObject_Base* OwningModifiedData, EOptionsListDataModifyReason ModifyReason);
 
+	// 하위 클래스는 이 함수를 오버라이드하여 소유한 위젯의 편집 가능 상태를 변경해야 합니다. super 호출이 예상됩니다.
+	virtual void OnToggleEditableState(bool bIsEditable);
+
 	void SelectThisEntryWidget();
 
 private:
