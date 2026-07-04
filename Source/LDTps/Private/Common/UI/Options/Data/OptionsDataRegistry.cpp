@@ -11,6 +11,7 @@
 #include "Core/GameplayTags/LDTpsGameplayTags.h"
 
 //FOptionsDataInteractionHelper 객체를 생성하는 매크로
+//이 매크로는 SetterOrGetterFuncName이라는 함수 이름을 받아서, 해당 함수 이름을 기반으로 FOptionsDataInteractionHelper 객체를 생성하는 코드를 반환합니다.
 #define MAKE_OPTION_DATA_CONTROL(SetterOrGetterFuncName) \
      MakeShared<FOptionsDataInteractionHelper>(GET_FUNCTION_NAME_STRING_CHECKED(ULDTpsGameUserSettings, SetterOrGetterFuncName))
 
@@ -242,6 +243,32 @@ void UOptionsDataRegistry::InitVideoCollectionTab()
 	UListDataObject_Collection* VideoTabCollection = NewObject<UListDataObject_Collection>();
 	VideoTabCollection->SetDataID(FName("VideoTabCollection"));
 	VideoTabCollection->SetDataDisplayName(FText::FromString(TEXT("그래픽")));
+
+	//그래픽 카테고리
+	{
+		UListDataObject_Collection* DisplayCategoryCollection = NewObject<UListDataObject_Collection>();
+		DisplayCategoryCollection->SetDataID(FName("DisplayCategoryCollection"));
+		DisplayCategoryCollection->SetDataDisplayName(FText::FromString(TEXT("디스플레이")));
+
+		VideoTabCollection->AddChildListData(DisplayCategoryCollection);
+
+		//Window Mode
+		{
+			UListDataObject_StringEnum* WindowMode = NewObject<UListDataObject_StringEnum>();
+			WindowMode->SetDataID(FName("WindowMode"));
+			WindowMode->SetDataDisplayName(FText::FromString(TEXT("창 모드")));
+			WindowMode->SetDescriptionRichText(FText::FromString(TEXT("게임 화면의 창 모드를 선택합니다.")));
+			WindowMode->AddEnumOption(EWindowMode::Fullscreen, FText::FromString(TEXT("전체 화면")));
+			WindowMode->AddEnumOption(EWindowMode::WindowedFullscreen, FText::FromString(TEXT("전체 화면(창 모드)")));
+			WindowMode->AddEnumOption(EWindowMode::Windowed, FText::FromString(TEXT("창 모드")));
+			WindowMode->SetDefaultValueFromEnumOption(EWindowMode::WindowedFullscreen); // 기본값을 WindowedFullscreen로 설정합니다.
+			WindowMode->SetDataDynamicGetter(MAKE_OPTION_DATA_CONTROL(GetFullscreenMode));
+			WindowMode->SetDataDynamicSetter(MAKE_OPTION_DATA_CONTROL(SetFullscreenMode));
+			WindowMode->SetShouldApplySettingsImmediately(true);
+
+			DisplayCategoryCollection->AddChildListData(WindowMode);
+		}
+	}
 
 	RegisteredOptionsTabCollections.Add(VideoTabCollection);
 }
